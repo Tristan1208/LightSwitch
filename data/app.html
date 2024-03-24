@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESP32 Light Switch Control</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        #toggleButton {
+            padding: 20px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        .off {
+            background-color: red;
+        }
+        .on {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <button id="toggleButton" class="off">Turn On</button>
+    
+    <script>
+        const toggleButton = document.getElementById("toggleButton");
+
+        toggleButton.addEventListener("click", function() {
+            fetch("/toggle-light")
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    if(data === "Light On") {
+                        toggleButton.classList.remove('off');
+                        toggleButton.classList.add('on');
+                        toggleButton.innerText = "Turn Off";
+                    } else {
+                        toggleButton.classList.remove('on');
+                        toggleButton.classList.add('off');
+                        toggleButton.innerText = "Turn On";
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
